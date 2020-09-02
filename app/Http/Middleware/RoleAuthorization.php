@@ -24,8 +24,11 @@ class RoleAuthorization
             $token = JWTAuth::parseToken();
             //Try authenticating user       
             $user = $token->authenticate();
-            $user->load('roles');
-            // $roleUsuarioLogado = $user->roles()->get()->pluck('role')->toArray();
+
+            $roleUsuarioLogado = $user->roles()->get()->pluck('role')->toArray();
+
+            // $result = !count(array_intersect($roleUsuarioLogado, $roles));
+
         } catch (TokenExpiredException $e) {
             //Thrown if token has expired        
             return $this->unauthorized('Seu token esta expirado, faça login novamente');
@@ -36,8 +39,8 @@ class RoleAuthorization
             //Thrown if token was not found in the request.
             return $this->unauthorized('Por favor, informe o token de autenticação');
         }
-        //If user was authenticated successfully and user is in one of the acceptable roles, send to next request.
-        if ($user && in_array($user->roles->role, $roles)) {
+        //Verifica se usuario esta logado e se um array contem valor no outro array
+        if ($user && !count(array_intersect($roleUsuarioLogado, $roles))) {
             return $next($request);
         }
 

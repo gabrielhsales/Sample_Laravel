@@ -31,9 +31,9 @@ Route::get('users/profile', ['middleware' => 'auth.role:visitante', 'uses' => 'U
 
 Route::group([
 
-    'middleware' => 'auth.role:admin'
+    'middleware' => 'auth.role:admin, tecnico'
 
 ], function ($router) {
 
-    Route::get('users/block', ['middleware' => 'auth.role:admin', 'uses' => 'UsersController@blockUser', 'as' => 'users.block']);
+    Route::get('users/block', ['uses' => 'UsersController@blockUser', 'as' => 'users.block']);
 });
