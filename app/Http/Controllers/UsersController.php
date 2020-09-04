@@ -16,7 +16,7 @@ class UsersController extends Controller
     {
         $users = User::all();
 
-        return $users;
+        return $users->load('roles');
     }
     public function profile()
     {

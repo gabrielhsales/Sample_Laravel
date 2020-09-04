@@ -21,19 +21,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('register', 'AuthController@register');
 
-Route::post('auth/login', ['uses' => 'AuthController@login', 'as' => 'login']);
+Route::post('auth/login', 'AuthController@login')->name('login');
 
 // Route::get('products', ['middleware' => 'auth.role:admin,user', 'uses' => 'ProductController@index', 'as' => 'products']);
 
-Route::get('users/profile', ['middleware' => 'auth.role:visitante', 'uses' => 'UsersController@profile']);
+Route::get('users/profile', ['middleware' => 'auth.role:visitante', 'UsersController@profile']);
 // Route::get('users/block', ['middleware' => 'auth.role:admin', 'uses' => 'UsersController@blockUser', 'as' => 'users.block']);
 
 
 Route::group([
-
     'middleware' => 'auth.role:admin, tecnico'
-
 ], function ($router) {
 
-    Route::get('users/block', ['uses' => 'UsersController@blockUser', 'as' => 'users.block']);
+    Route::get('users/block', 'UsersController@blockUser')->name('users.block');
 });
